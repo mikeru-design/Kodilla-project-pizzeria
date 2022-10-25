@@ -60,6 +60,7 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.getElements();
       thisProduct.initAccordion();
 
       console.log('new Product:', thisProduct);
@@ -82,27 +83,31 @@
 
     }
 
+    getElements(){
+      const thisProduct = this;
+
+      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
+      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
+      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
+      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    }
+
     initAccordion(){
       const thisProduct = this;
 
-      /* find the clickable trigger (the element that should react to clicking) */
-      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-      console.log(clickableTrigger);
-
       /* START: add event listener to clickable trigger on event click */
-      clickableTrigger.addEventListener('click', function(event) {
+      thisProduct.accordionTrigger.addEventListener('click', function(event) {
         /* prevent default action for event */
         event.preventDefault();
 
-        // /* find active product (product that has active class) */
+        /* find active product (product that has active class) */
         const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
-        // console.log(activeProducts);
 
-        // /* if there is active product and it's not thisProduct.element, remove class active from it */
+        /* if there is active product and it's not thisProduct.element, remove class active from it */
         for ( let activeProduct of activeProducts) {
           if (activeProduct != thisProduct.element){
             activeProduct.classList.remove(classNames.menuProduct.wrapperActive);
-            activeProduct.classList.remove('active');
           }
         }
 
