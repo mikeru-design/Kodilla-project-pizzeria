@@ -165,6 +165,11 @@
           console.log('optionId:', optionId,'option:', option);
 
           // // Check if formData includes option
+          if (formData[paramId].includes(optionId) && option.hasOwnProperty('default')){
+            console.log('Jest');
+            price == price;
+            console.log(price);
+          }
           if (formData[paramId].includes(optionId) &&! option.hasOwnProperty('default')){
             console.log('Jest');
             price += option.price;
@@ -174,6 +179,9 @@
             console.log('Jest');
             price -= option.price;
             console.log(price);
+          }
+          if (!formData[paramId].includes(optionId)){
+            console.log('nie ma !!!');
           }
         }
       }
