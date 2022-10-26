@@ -53,11 +53,11 @@
   };
 
   class Product{
-    constructor(meal, mealData){
+    constructor(id, data){
       const thisProduct = this;
 
-      thisProduct.meal = meal;
-      thisProduct.mealData = mealData;
+      thisProduct.id = id;
+      thisProduct.data = data;
 
       thisProduct.renderInMenu();
       thisProduct.getElements();
@@ -155,20 +155,25 @@
       for(let paramId in thisProduct.data.params) {
         // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
         const param = thisProduct.data.params[paramId];
-        console.log(paramId, param);
+        console.log('paramId:', paramId,'param:', param);
 
         // for every option in this category
         for(let optionId in param.options) {
 
           // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          console.log(optionId, option);
+          console.log('optionId:', optionId,'option:', option);
 
           // // Check if formData includes option
-          if (formData.hasOwnProperty(paramId) ){
+          if (formData[paramId].includes(optionId) &&! option.hasOwnProperty('default')){
+            console.log('Jest');
             price += option.price;
-
-            return console.log(price);
+            console.log(price);
+          }
+          if (!formData[paramId].includes(optionId) && option.hasOwnProperty('default')){
+            console.log('Jest');
+            price -= option.price;
+            console.log(price);
           }
         }
       }
