@@ -53,11 +53,11 @@
   };
 
   class Product{
-    constructor(id, data){
+    constructor(meal, mealData){
       const thisProduct = this;
 
-      thisProduct.id = id;
-      thisProduct.data = data;
+      thisProduct.meal = meal;
+      thisProduct.mealData = mealData;
 
       thisProduct.renderInMenu();
       thisProduct.getElements();
