@@ -164,29 +164,22 @@
           const option = param.options[optionId];
           console.log('optionId:', optionId,'option:', option);
 
-          // // Check if formData includes option
-          if (formData[paramId].includes(optionId) && option.hasOwnProperty('default')){
-            console.log('Jest');
-            price == price;
-            console.log(price);
-          }
-          if (formData[paramId].includes(optionId) &&! option.hasOwnProperty('default')){
-            console.log('Jest');
-            price += option.price;
-            console.log(price);
-          }
-          if (!formData[paramId].includes(optionId) && option.hasOwnProperty('default')){
-            console.log('Jest');
-            price -= option.price;
-            console.log(price);
-          }
-          if (!formData[paramId].includes(optionId)){
-            console.log('nie ma !!!');
+          if (formData[paramId] && formData[paramId].includes(optionId)){
+            if (!option.default){
+              price += option.price;
+              console.log('Checked not default option!!! Price goes up by:', option.price);
+            }
+          } else {
+            if (option.default){
+              price -= option.price;
+              console.log('Unchecked default option!!! Price goes down by:', option.price);
+            }
           }
         }
       }
 
       // update calculated price in the HTML
+      console.log('Total price:', price);
       thisProduct.priceElem.innerHTML = price;
     }
 
