@@ -93,6 +93,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
     initAccordion(){
@@ -164,17 +165,29 @@
           const option = param.options[optionId];
           console.log('optionId:', optionId,'option:', option);
 
+          const img = thisProduct.imageWrapper.querySelector('.'+paramId+'-'+optionId);
+
           if (formData[paramId] && formData[paramId].includes(optionId)){
+            if (img != null){
+              img.classList.add(classNames.menuProduct.imageVisible);
+              console.log('Added class active to:',img);
+            }
             if (!option.default){
               price += option.price;
               console.log('Checked not default option!!! Price goes up by:', option.price);
             }
           } else {
+            if (img != null){
+              img.classList.remove(classNames.menuProduct.imageVisible);
+              console.log('Removed class active from:',img);
+            }
             if (option.default){
               price -= option.price;
               console.log('Unchecked default option!!! Price goes down by:', option.price);
             }
           }
+
+
         }
       }
 
