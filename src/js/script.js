@@ -66,7 +66,7 @@
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
 
-      console.log('new Product:', thisProduct);
+      // console.log('new Product:', thisProduct);
     }
 
     renderInMenu(){
@@ -230,29 +230,33 @@
 
     setValue(value){
       const thisWidget = this;
+      console.log(value);
 
       const newValue = parseInt(value);
       console.log('newValue:', newValue);
 
       // TO DO: Add validation
-      if (thisWidget.value !== newValue && !isNaN(newValue)){
+      if (thisWidget.value !== newValue && !isNaN(newValue) && settings.amountWidget.defaultMax >= newValue && newValue >= settings.amountWidget.defaultMin){
         thisWidget.value = newValue;
       }
 
       thisWidget.input.value = thisWidget.value;
+      console.log('thisWidget.input.value:', thisWidget.input.value);
     }
 
     initActions(){
       const thisWidget = this;
 
-      thisWidget.input.addEventListener('change', thisWidget.setValue(thisWidget.input.value));
-      thisWidget.linkDecrease.addEventListener('click', function(event){
-        event.preventDefault();
-        thisWidget.setValue(thisWidget.value -= 1);
+      thisWidget.input.addEventListener('change', () => {
+        thisWidget.setValue(thisWidget.input.value);
       });
-      thisWidget.linkIncrease.addEventListener('click', function(event){
+      thisWidget.linkDecrease.addEventListener('click', (event) => {
         event.preventDefault();
-        thisWidget.setValue(thisWidget.value += 1);
+        thisWidget.setValue(thisWidget.value - 1);
+      });
+      thisWidget.linkIncrease.addEventListener('click', (event) => {
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value + 1);
       });
     }
   }
