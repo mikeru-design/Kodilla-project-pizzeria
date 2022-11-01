@@ -99,8 +99,6 @@
       thisProduct.initOrderForm();
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
-
-      // console.log('new Product:', thisProduct);
     }
 
     renderInMenu(){
@@ -174,6 +172,7 @@
       thisProduct.cartButton.addEventListener('click', function(event){
         event.preventDefault();
         thisProduct.processOrder();
+        thisProduct.addToCart();
       });
 
     }
@@ -222,15 +221,15 @@
               // console.log('Unchecked default option!!! Price goes down by:', option.price);
             }
           }
-
-
         }
       }
 
       // update calculated price in the HTML
-      console.log('Total price:', price);
+      // console.log('Total price:', price);
       price *= thisProduct.amountWidget.value;
+      const priceSingle = price;
       thisProduct.priceElem.innerHTML = price;
+      console.log(priceSingle);
     }
 
     initAmountWidget(){
@@ -242,20 +241,38 @@
       });
     }
 
+    addToCart(){
+      const thisProduct = this;
+
+      app.cart.add(thisProduct);
+    }
+
+    prepareCartProduct(){
+      const thisProduct = this;
+
+      const productSummary = {
+        id: thisProduct.id,
+        name: thisProduct.name,
+        amount: thisProduct.amount,
+        priceSingle: thisProduct.priceSingle,
+        price: thisProduct.priceSingle * thisProduct.amountWidget.value,
+        params: {},
+      };
+    }
+
   }
 
   class AmountWidget{
     constructor(element){
       const thisWidget = this;
 
-      console.log('AmountWidget:', thisWidget);
-      console.log('constructor arguments:', element);
+      // console.log('AmountWidget:', thisWidget);
+      // console.log('constructor arguments:', element);
 
       thisWidget.getElements(element);
       thisWidget.setValue(settings.amountWidget.defaultValue);
       thisWidget.initActions();
     }
-
 
     getElements(element){
       const thisWidget = this;
@@ -268,10 +285,10 @@
 
     setValue(value){
       const thisWidget = this;
-      console.log(value);
+      // console.log(value);
 
       const newValue = parseInt(value);
-      console.log('newValue:', newValue);
+      // console.log('newValue:', newValue);
 
       // TO DO: Add validation
       if (thisWidget.value !== newValue && !isNaN(newValue) && settings.amountWidget.defaultMax >= newValue && newValue >= settings.amountWidget.defaultMin){
@@ -279,7 +296,7 @@
       }
 
       thisWidget.input.value = thisWidget.value;
-      console.log('thisWidget.input.value:', thisWidget.input.value);
+      // console.log('thisWidget.input.value:', thisWidget.input.value);
 
       thisWidget.announce();
     }
@@ -327,7 +344,6 @@
 
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
-      console.log(thisCart.dom.toggleTrigger);
     }
 
     initActions(){
@@ -337,16 +353,22 @@
         thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
     }
+
+    add(menuProduct){
+      // const thisCart = this;
+
+      console.log('adding product', menuProduct);
+    }
   }
 
   const app = {
 
-    initData: function(){
+    initData(){
       const thisApp = this;
       thisApp.data = dataSource;
     },
 
-    initMenu: function(){
+    initMenu(){
 
       const thisApp = this;
       console.log('thisApp.data:', thisApp.data);
@@ -361,10 +383,9 @@
 
       const cartElem = document.querySelector(select.containerOf.cart);
       thisApp.cart = new Cart(cartElem);
-
     },
 
-    init: function(){
+    init(){
       const thisApp = this;
       console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
