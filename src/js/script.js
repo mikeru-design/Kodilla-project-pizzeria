@@ -275,7 +275,6 @@
       const formData = utils.serializeFormToObject(thisProduct.form);
       const params = {};
 
-      // for every category (param)...
       for(let paramId in thisProduct.data.params) {
         const param = thisProduct.data.params[paramId];
 
@@ -325,18 +324,14 @@
 
     setValue(value){
       const thisWidget = this;
-      // console.log(value);
 
       const newValue = parseInt(value);
-      // console.log('newValue:', newValue);
 
-      // TO DO: Add validation
       if (thisWidget.value !== newValue && !isNaN(newValue) && settings.amountWidget.defaultMax >= newValue && newValue >= settings.amountWidget.defaultMin){
         thisWidget.value = newValue;
       }
 
       thisWidget.input.value = thisWidget.value;
-      // console.log('thisWidget.input.value:', thisWidget.input.value);
 
       thisWidget.announce();
     }
@@ -402,29 +397,56 @@
 
       console.log('adding product', menuProduct);
 
-      // renderInMenu(){
-      //   const thisProduct = this;
-
-      //   // generate HTML based on template
-      //   const generatedHTML = templates.menuProduct(thisProduct.data);
-
-      //   // create element using utils.createElementFromHTML
-      //   thisProduct.element = utils.createDOMFromHTML(generatedHTML);
-
-      //   // find menu container
-      //   const menuContainer = document.querySelector(select.containerOf.menu);
-
-      //   // add element to menu
-      //   menuContainer.appendChild(thisProduct.element);
-
-      // }
-
       const generatedHTML = templates.cartProduct(menuProduct);
 
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
 
       thisCart.dom.productList.appendChild(generatedDOM);
 
+      thisCart.products.push(new CartProduct(menuProduct, generatedDOM));
+
+      console.log('thisCart.products:', thisCart.products);
+    }
+  }
+
+  class CartProduct {
+    constructor(menuProduct, element){
+      const thisCartProduct = this;
+
+      thisCartProduct.id = menuProduct.id;
+      thisCartProduct.name = menuProduct.name;
+      thisCartProduct.amount = menuProduct.amount;
+      thisCartProduct.priceSingle = menuProduct.priceSingle;
+      thisCartProduct.price = menuProduct.price;
+
+      thisCartProduct.getElements(element);
+      thisCartProduct.initAmountWidget();
+
+      console.log(thisCartProduct);
+    }
+
+    getElements(element){
+      const thisCartProduct = this;
+
+      thisCartProduct.dom = {};
+
+      thisCartProduct.dom.wrapper = element;
+      thisCartProduct.dom.amountWidget = element.querySelector(select.cartProduct.amountWidget);
+      thisCartProduct.dom.price = element.querySelector(select.cartProduct.price);
+      thisCartProduct.dom.edit = element.querySelector(select.cartProduct.edit);
+      thisCartProduct.dom.remove = element.querySelector(select.cartProduct.remove);
+
+    }
+
+    initAmountWidget(){
+      const thisCartProduct = this;
+
+      thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+
+      thisCartProduct.dom.amountWidget.addEventListener('updated', () => {
+
+        // thisCartProduct.amount =
+      });
     }
   }
 
