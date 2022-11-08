@@ -69,7 +69,7 @@
   const settings = {
     amountWidget: {
       defaultValue: 1,
-      defaultMin: 0,
+      defaultMin: 1,
       defaultMax: 10,
     }, // CODE CHANGED
     // CODE ADDED START
@@ -99,7 +99,6 @@
       thisProduct.initOrderForm();
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
-      // thisProduct.prepareCartProductParams();
     }
 
     renderInMenu(){
@@ -116,7 +115,6 @@
 
       // add element to menu
       menuContainer.appendChild(thisProduct.element);
-
     }
 
     getElements(){
@@ -235,7 +233,7 @@
       thisProduct.priceSingle = price;
       const totalPrice = price * thisProduct.amountWidget.value;
       thisProduct.priceElem.innerHTML = totalPrice;
-      console.log(`Single ${thisProduct.id.toUpperCase()} full price: ${thisProduct.priceSingle}`);
+      // console.log(`Single ${thisProduct.id.toUpperCase()} full price: ${thisProduct.priceSingle}`);
     }
 
     initAmountWidget(){
@@ -302,11 +300,8 @@
     constructor(element){
       const thisWidget = this;
 
-      // console.log('AmountWidget:', thisWidget);
-      // console.log('constructor arguments:', element);
-
       thisWidget.getElements(element);
-      thisWidget.setValue(settings.amountWidget.defaultValue);
+      thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions();
     }
 
@@ -325,10 +320,16 @@
     setValue(value){
       const thisWidget = this;
 
+      thisWidget.value = settings.amountWidget.defaultValue;
+
       const newValue = parseInt(value);
 
       if (thisWidget.value !== newValue && !isNaN(newValue) && settings.amountWidget.defaultMax >= newValue && newValue >= settings.amountWidget.defaultMin){
         thisWidget.value = newValue;
+      } else if (newValue > settings.amountWidget.defaultMax){
+        thisWidget.value = settings.amountWidget.defaultMax;
+      } else if (newValue < settings.amountWidget.defaultMin){
+        thisWidget.value = settings.amountWidget.defaultMin;
       }
 
       thisWidget.input.value = thisWidget.value;
@@ -445,7 +446,9 @@
 
       thisCartProduct.dom.amountWidget.addEventListener('updated', () => {
 
-        // thisCartProduct.amount =
+        thisCartProduct.price = thisCartProduct.priceSingle * thisCartProduct.amountWidget.value;
+        thisCartProduct.dom.price.innerHTML = thisCartProduct.price;
+
       });
     }
   }
