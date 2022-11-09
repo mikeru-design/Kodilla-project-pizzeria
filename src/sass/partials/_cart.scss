@@ -3,7 +3,7 @@
   width: 300px; // CODE CHANGED
   right: 0;
   top: $base-size;
-  padding: ($base-size) ($base-size * 1.5);
+  padding: calc($base-size) calc($base-size * 1.5);
   background: $color-light;
   border-radius: $radius;
   color: $color-main;
@@ -26,7 +26,7 @@
   }
 
   &__icon {
-    font-size: ($base-size * 2);
+    font-size: calc($base-size * 2);
   }
 
   &__total-number {
@@ -61,8 +61,8 @@
 
       input {
         margin: 0;
-        width: ($base-size * 2);
-        height: ($base-size * 2);
+        width: calc($base-size * 2);
+        height: calc($base-size * 2);
       }
 
       &:hover .btn-quantity--lt {
@@ -86,7 +86,7 @@
   &__product-details {
     li {
       display: block;
-      margin: 0 0 ($base-size / 4) 0;
+      margin: 0 0 calc($base-size / 4) 0;
       font-size: 10px;
       color: lighten($color-dark, 40%);
       text-transform: lowercase;
@@ -99,7 +99,7 @@
 
   &__product-details-label {
     position: relative;
-    padding: 0 ($base-size / 2) 0 0;
+    padding: 0 calc($base-size / 2) 0 0;
     font-weight: 700;
 
     &::after {
@@ -151,7 +151,7 @@
 
     input, button {
       width: 100%;
-      margin-bottom: ($base-size / 2);
+      margin-bottom: calc($base-size / 2);
     }
 
   }
