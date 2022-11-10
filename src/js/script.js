@@ -446,7 +446,7 @@
 
       thisCart.update();
 
-      console.log('thisCart.products:', thisCart.products);
+      // console.log('thisCart.products:', thisCart.products);
     }
 
     update(){
@@ -504,7 +504,7 @@
     sendOrder(){
       const thisCart = this;
 
-      // const url = settings.db.url + '/' + settings.db.orders;
+      const url = settings.db.url + '/' + settings.db.orders;
 
       const payload = {
         address: thisCart.dom.address.value,
@@ -521,7 +521,25 @@
       }
 
       console.log('payload: ',payload);
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      };
+
+      fetch(url, options)
+        .then((response) => {
+          return response.json();
+        }).then((parsedResponse) => {
+          console.log('parsedResponse: ', parsedResponse);
+        });
+
+      // return payload;
     }
+
   }
 
   // ---------------------------------------CartProduct--------------------------------
@@ -535,12 +553,13 @@
       thisCartProduct.amount = menuProduct.amount;
       thisCartProduct.priceSingle = menuProduct.priceSingle;
       thisCartProduct.price = menuProduct.price;
+      thisCartProduct.params = menuProduct.params;
 
       thisCartProduct.getElements(element);
       thisCartProduct.initAmountWidget();
       thisCartProduct.initActions();
 
-      console.log('thisCartProduct: ',thisCartProduct);
+      console.log('thisCartProduct.params: ',thisCartProduct.params);
     }
 
     getElements(element){
@@ -606,10 +625,10 @@
         amount: thisCartProduct.amount,
         priceSingle: thisCartProduct.priceSingle,
         price: thisCartProduct.price,
-        params: [thisCartProduct.menuProduct],
+        params: thisCartProduct.params,
       };
 
-      console.log('orderSummary:', orderSummary);
+      return orderSummary;
     }
   }
 
