@@ -85,6 +85,8 @@ class CartProduct {
       params: thisCartProduct.params,
     };
 
+    console.log(orderSummary);
+
     return orderSummary;
   }
 }

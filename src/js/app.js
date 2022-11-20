@@ -13,6 +13,7 @@ const app = {
 
     fetch(url)
       .then( function(rawResponse){
+        console.log('rawResponse', rawResponse);
         return rawResponse.json();
       })
       .then( function(parsedResponse){
