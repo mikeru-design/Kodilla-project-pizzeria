@@ -1,9 +1,70 @@
 
-import { settings, select } from './settings.js';
+import { settings, select,  classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
 
 const app = {
+  
+  initBooking(){
+    const thisApp = this;
+
+    const bookingWidget = document.querySelector(select.containerOf.booking);
+
+    thisApp.booking = new Booking(bookingWidget);
+  },
+
+  initPages(){
+    const thisApp = this;
+
+    thisApp.pages = document.querySelector(select.containerOf.pages).children;
+    thisApp.navLinks = document.querySelectorAll(select.nav.links);
+
+    const idFromHash = window.location.hash.replace('#/', '');
+
+    for ( let page of thisApp.pages) {
+      if ( page.id == idFromHash){
+        thisApp.activatePage(idFromHash);
+      } else {
+        thisApp.activatePage( thisApp.pages[0].id);
+      }
+    }
+
+    for ( let link of thisApp.navLinks){
+
+      link.addEventListener('click', (event) => {
+        console.log(this);
+        console.log(event.target);
+        // const clickedElement = this;
+        event.preventDefault();
+
+        const id = link.getAttribute('href').replace('#', '');
+        // const id = clickedElement.getAttribute('href').replace('#', '');
+        thisApp.activatePage(id);
+
+        // change URL hash
+        window.location.hash = '#/' + id;
+      });
+    }
+
+  },
+
+  activatePage(pageId){
+    const thisApp = this;
+
+    // add class active to matching page and remove from the non-matching
+    for ( let page of thisApp.pages){
+      page.classList.toggle(classNames.pages.active, page.id == pageId);
+    }
+
+    // add class active to matching link and remove from the non-matching
+    for ( let link of thisApp.navLinks){
+      const linkHrefToId = link.getAttribute('href').replace('#', '');
+      // link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
+      link.classList.toggle(classNames.nav.active, linkHrefToId == pageId);
+    }
+
+  },
 
   initData(){
     const thisApp = this;
@@ -53,6 +114,8 @@ const app = {
 
     thisApp.initData();
     thisApp.initCart();
+    thisApp.initPages();
+    thisApp.initBooking();
   },
 };
 
