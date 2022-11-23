@@ -5,7 +5,7 @@ import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
 
 const app = {
-  
+
   initBooking(){
     const thisApp = this;
 
@@ -22,24 +22,27 @@ const app = {
 
     const idFromHash = window.location.hash.replace('#/', '');
 
+    let pageMatchingHash = false;
     for ( let page of thisApp.pages) {
+
       if ( page.id == idFromHash){
         thisApp.activatePage(idFromHash);
-      } else {
+        pageMatchingHash = true;
+        break;
+      }
+
+      if (!pageMatchingHash){
         thisApp.activatePage( thisApp.pages[0].id);
       }
     }
 
     for ( let link of thisApp.navLinks){
 
-      link.addEventListener('click', (event) => {
-        console.log(this);
-        console.log(event.target);
-        // const clickedElement = this;
+      link.addEventListener('click', function (event) {
+        const clickedElement = this;
         event.preventDefault();
 
-        const id = link.getAttribute('href').replace('#', '');
-        // const id = clickedElement.getAttribute('href').replace('#', '');
+        const id = clickedElement.getAttribute('href').replace('#', '');
         thisApp.activatePage(id);
 
         // change URL hash
@@ -59,9 +62,8 @@ const app = {
 
     // add class active to matching link and remove from the non-matching
     for ( let link of thisApp.navLinks){
-      const linkHrefToId = link.getAttribute('href').replace('#', '');
-      // link.classList.toggle(classNames.nav.active, link.getAttribute('href') == '#' + pageId);
-      link.classList.toggle(classNames.nav.active, linkHrefToId == pageId);
+      const linkIdFromHref = link.getAttribute('href').replace('#', '');
+      link.classList.toggle(classNames.nav.active, linkIdFromHref == pageId);
     }
 
   },
@@ -74,11 +76,11 @@ const app = {
 
     fetch(url)
       .then( function(rawResponse){
-        console.log('rawResponse', rawResponse);
+        // console.log('rawResponse', rawResponse);
         return rawResponse.json();
       })
       .then( function(parsedResponse){
-        console.log('parsedResponse', parsedResponse);
+        // console.log('parsedResponse', parsedResponse);
 
         thisApp.data.products = parsedResponse;
 
