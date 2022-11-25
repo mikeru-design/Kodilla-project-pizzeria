@@ -109,9 +109,9 @@ export const settings = {
   db: {
     url: '//localhost:3131',
     products: 'products',
-    order: 'order',
-    booking: 'booking',
-    event: 'event',
+    orders: 'orders',
+    bookings: 'bookings',
+    events: 'events',
     dateStartParamKey: 'date_gte',
     dateEndParamKey: 'date_lte',
     notRepeatParam: 'repeat=false',
