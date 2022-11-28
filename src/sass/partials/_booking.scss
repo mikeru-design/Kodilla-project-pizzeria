@@ -146,6 +146,7 @@
     line-height: 70px;
     transform: rotate(45deg);
     transform-origin: 50% 50%;
+    transition: .3s;
     cursor: pointer;
 
     &--round {
@@ -171,7 +172,12 @@
         background: $color-dark;
         opacity: 0.4;
       }
+    }
 
+    &.clicked {
+      background-color: rgb(69, 228, 69);
+      box-shadow: 0 0 12px rgba(16, 171, 72, 0.2);
+      transform: scale(1.1) rotate(45deg);
     }
   }
 

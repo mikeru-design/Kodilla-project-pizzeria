@@ -61,6 +61,8 @@ export const select = {
     peopleAmount: '.people-amount',
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
+    floor: '.floor-plan',
+    sendResBtn: '#booking .order-confirmation .btn-secondary',
   },
   nav: {
     links: '.main-nav a',
@@ -78,6 +80,7 @@ export const classNames = {
   booking: {
     loading: 'loading',
     tableBooked: 'booked',
+    tableClicked: 'clicked',
   },
   nav: {
     active: 'active',
@@ -105,6 +108,10 @@ export const settings = {
   },
   booking: {
     tableIdAttribute: 'data-table',
+    peopleWidget: {
+      defaultMin: 1,
+      defaultMax: 4,
+    },
   },
   db: {
     url: '//localhost:3131',
