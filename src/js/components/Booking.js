@@ -9,7 +9,7 @@ class Booking {
   constructor(element){
     const thisBooking = this;
 
-    thisBooking.clickedTable = [];
+    thisBooking.tablesClicked = [];
 
     thisBooking.render(element);
     thisBooking.initWidgets();
@@ -172,17 +172,17 @@ class Booking {
 
         event.target.classList.add(classNames.booking.tableClicked);
 
-        thisBooking.clickedTable.push(tableNm);
-        console.log('clickedTable: ',thisBooking.clickedTable);
+        thisBooking.tablesClicked.push(tableNm);
+        console.log('tablesClicked: ',thisBooking.tablesClicked);
 
       } else if ( event.target.classList.contains(classNames.booking.tableClicked) ){
 
         event.target.classList.remove(classNames.booking.tableClicked);
 
-        const tableIndex = thisBooking.clickedTable.indexOf(tableNm);
+        const tableIndex = thisBooking.tablesClicked.indexOf(tableNm);
         console.log(tableIndex);
-        thisBooking.clickedTable.splice(tableIndex, 1);
-        console.log('tableBooked: ',thisBooking.clickedTable);
+        thisBooking.tablesClicked.splice(tableIndex, 1);
+        console.log('tableBooked: ',thisBooking.tablesClicked);
       } else {
         window.alert('This table is not available at this time!');
       }
@@ -196,7 +196,7 @@ class Booking {
     const strDate = thisBooking.datePicker.value;
     const duration = thisBooking.hoursAmountWidget.value;
 
-    for ( let tableNm of thisBooking.clickedTable){
+    for ( let tableNm of thisBooking.tablesClicked){
 
       for ( let date in thisBooking.booked){
         if ( date == strDate ){
@@ -278,11 +278,11 @@ class Booking {
       if( table.classList.contains(classNames.booking.tableBooked)){
         table.classList.remove(classNames.booking.tableClicked);
         const tableNm = table.getAttribute('data-table');
-        if( thisBooking.clickedTable.includes(tableNm)){
-          const tableIndex = thisBooking.clickedTable.indexOf(tableNm);
+        if( thisBooking.tablesClicked.includes(tableNm)){
+          const tableIndex = thisBooking.tablesClicked.indexOf(tableNm);
           console.log('tableIndex: ',tableIndex);
-          thisBooking.clickedTable.splice(tableIndex, 1);
-          console.log('tableBooked: ',thisBooking.clickedTable);
+          thisBooking.tablesClicked.splice(tableIndex, 1);
+          console.log('tableBooked: ',thisBooking.tablesClicked);
         }
       }
     }
