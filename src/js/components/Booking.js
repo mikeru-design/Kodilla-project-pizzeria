@@ -34,6 +34,9 @@ class Booking {
     thisBooking.dom.floor = document.querySelector(select.booking.floor);
     thisBooking.dom.tables = document.querySelectorAll(select.booking.tables);
     thisBooking.dom.sendResBtn = document.querySelector(select.booking.sendResBtn);
+    thisBooking.dom.phone = document.querySelector(select.booking.phoneInput);
+    thisBooking.dom.address = document.querySelector(select.booking.addressInput);
+    thisBooking.dom.startersCheck = document.querySelectorAll(select.booking.startersCheck);
   }
 
   initWidgets(){
@@ -198,34 +201,42 @@ class Booking {
 
     for ( let tableNm of thisBooking.tablesClicked){
 
-      for ( let date in thisBooking.booked){
-        if ( date == strDate ){
+      if ( thisBooking.booked[strDate] ){
 
-          for ( let hourBlock = strHour; hourBlock < strHour + duration; hourBlock+= 0.5 ){
-            const bookedTables = thisBooking.booked[date][hourBlock];
+        let tableAvailable = true;
 
-            if( bookedTables.includes(parseInt(tableNm)) ){
+        for ( let hourBlock = strHour; hourBlock < strHour + duration; hourBlock+= 0.5 ){
 
-              let hourBlockToText = '';
+          const bookedTables = thisBooking.booked[strDate][hourBlock];
 
-              const hourBlockToTextF = function(hourBlock){
-                if ( hourBlock.toString().includes('5', 3) ){
-                  hourBlockToText = hourBlock.toString().replace('.5', ':30');
-                } else {
-                  hourBlockToText = hourBlock.toString() + ':00';
-                }
-                return hourBlockToText;
-              };
-              window.alert(`Sorry, you can't reserve table ${tableNm} for ${duration} hours.\nIt's already reserved from ${hourBlockToTextF(hourBlock)}`);
-              console.log(hourBlock);
-              break;
-            }
+          if(  bookedTables && bookedTables.includes(parseInt(tableNm)) ){
+
+            let hourBlockToText = '';
+
+            const hourBlockToTextF = function(hourBlock){
+              if ( hourBlock.toString().includes('5', 3) ){
+                hourBlockToText = hourBlock.toString().replace('.5', ':30');
+              } else {
+                hourBlockToText = hourBlock.toString() + ':00';
+              }
+
+              tableAvailable = false;
+
+              return hourBlockToText;
+            };
+
+            window.alert(`Sorry, you can't reserve table ${tableNm} for ${duration} hours.\nIt's already reserved from ${hourBlockToTextF(hourBlock)}`);
+            console.log(hourBlock);
+
+            break;
           }
-          break;
+        }
+
+        if ( tableAvailable == true) {
+          thisBooking.sendBooking();
         }
       }
     }
-
   }
 
   initAction(){
@@ -258,6 +269,7 @@ class Booking {
     }
 
     for ( let table of thisBooking.dom.tables){
+
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
 
       if(!isNaN(tableId)){
@@ -276,20 +288,66 @@ class Booking {
       }
 
       if( table.classList.contains(classNames.booking.tableBooked)){
+
         table.classList.remove(classNames.booking.tableClicked);
+
         const tableNm = table.getAttribute('data-table');
+
         if( thisBooking.tablesClicked.includes(tableNm)){
+
           const tableIndex = thisBooking.tablesClicked.indexOf(tableNm);
-          console.log('tableIndex: ',tableIndex);
+
           thisBooking.tablesClicked.splice(tableIndex, 1);
           console.log('tableBooked: ',thisBooking.tablesClicked);
         }
       }
     }
+  }
 
-    // console.log(thisBooking.datePicker.value);
-    // console.log(utils.hourToNumber(thisBooking.timePicker.value));
-    // console.log(thisBooking.hoursAmountWidget.value);
+  sendBooking(){
+    const thisBooking = this;
+
+    const url = settings.db.url + '/' + settings.db.bookings;
+
+    const payload = {
+
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.timePicker.value,
+      table: Number( thisBooking.tablesClicked.toString() ),
+      duration: thisBooking.hoursAmountWidget.value,
+      ppl: thisBooking.peopleAmountWidget.value,
+      starters: [],
+      phone: thisBooking.dom.phone.value,
+      address: thisBooking.dom.address.value
+
+    };
+
+    for( let input of thisBooking.dom.startersCheck){
+      if( input.checked ){
+        payload.starters.push(input.value);
+      }
+    }
+    console.log('payload: ',payload);
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(url, options)
+      .then((response) => {
+        return response.json();
+      }).then((parsedResponse) => {
+        console.log('parsedResponse', parsedResponse);
+
+        thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
+        thisBooking.updateDOM();
+      });
+
+    console.log(payload.table);
   }
 }
 

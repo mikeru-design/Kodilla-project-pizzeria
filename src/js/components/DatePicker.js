@@ -27,7 +27,7 @@ class DatePicker extends BaseWidget{
       },
       disable: [
         function(date) {
-          return (date.getDay() === 2);
+          return (date.getDay() === 0);
         }
       ],
       onChange: function(selectedDates, dateStr) {

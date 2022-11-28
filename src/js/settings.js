@@ -60,6 +60,9 @@ export const select = {
   booking: {
     peopleAmount: '.people-amount',
     hoursAmount: '.hours-amount',
+    phoneInput: '.order-confirmation [name="phone"]',
+    addressInput: '.order-confirmation [name="address"]',
+    startersCheck: '.booking-options [name="starter"]',
     tables: '.floor-plan .table',
     floor: '.floor-plan',
     sendResBtn: '#booking .order-confirmation .btn-secondary',
