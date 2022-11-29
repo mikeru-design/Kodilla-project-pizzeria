@@ -65,6 +65,7 @@ export const select = {
     startersCheck: '.booking-options [name="starter"]',
     tables: '.floor-plan .table',
     floor: '.floor-plan',
+    orderConfirmation:'.order-confirmation input',
     sendResBtn: '#booking .order-confirmation .btn-secondary',
   },
   nav: {

@@ -176,8 +176,12 @@
 
     &.clicked {
       background-color: rgb(69, 228, 69);
-      box-shadow: 0 0 12px rgba(16, 171, 72, 0.2);
+      box-shadow: 0 0 12px rgba(22, 181, 80, 0.475);
       transform: scale(1.1) rotate(45deg);
+    }
+
+    &.alert{
+      box-shadow: inset 0px 0px 0px 2px red;
     }
   }
 
@@ -203,4 +207,14 @@
 .booking-options {
   @include flex(row, flex-start, space-between);
   margin: ($base-size * 4) auto;
+}
+
+.order-confirmation{
+
+  input{
+
+    &.alert{
+        box-shadow: inset 0px 0px 0px 2px red;
+      }
+  }
 }

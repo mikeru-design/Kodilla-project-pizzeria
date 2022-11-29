@@ -37,6 +37,7 @@ class Booking {
     thisBooking.dom.phone = document.querySelector(select.booking.phoneInput);
     thisBooking.dom.address = document.querySelector(select.booking.addressInput);
     thisBooking.dom.startersCheck = document.querySelectorAll(select.booking.startersCheck);
+    thisBooking.dom.orderConfirmationInputs = document.querySelectorAll('.order-confirmation input');
   }
 
   initWidgets(){
@@ -178,6 +179,10 @@ class Booking {
         thisBooking.tablesClicked.push(tableNm);
         console.log('tablesClicked: ',thisBooking.tablesClicked);
 
+        for ( let table of thisBooking.dom.tables ){
+          table.classList.remove('alert');
+        }
+
       } else if ( event.target.classList.contains(classNames.booking.tableClicked) ){
 
         event.target.classList.remove(classNames.booking.tableClicked);
@@ -185,14 +190,14 @@ class Booking {
         const tableIndex = thisBooking.tablesClicked.indexOf(tableNm);
         console.log(tableIndex);
         thisBooking.tablesClicked.splice(tableIndex, 1);
-        console.log('tableBooked: ',thisBooking.tablesClicked);
+        console.log('tablesClicked: ',thisBooking.tablesClicked);
       } else {
         window.alert('This table is not available at this time!');
       }
     }
   }
 
-  tableAvailability(){
+  tableAvailable(){
     const thisBooking = this;
 
     const strHour = utils.hourToNumber(thisBooking.timePicker.value);
@@ -202,8 +207,6 @@ class Booking {
     for ( let tableNm of thisBooking.tablesClicked){
 
       if ( thisBooking.booked[strDate] ){
-
-        let tableAvailable = true;
 
         for ( let hourBlock = strHour; hourBlock < strHour + duration; hourBlock+= 0.5 ){
 
@@ -220,22 +223,37 @@ class Booking {
                 hourBlockToText = hourBlock.toString() + ':00';
               }
 
-              tableAvailable = false;
-
               return hourBlockToText;
             };
 
             window.alert(`Sorry, you can't reserve table ${tableNm} for ${duration} hours.\nIt's already reserved from ${hourBlockToTextF(hourBlock)}`);
-            console.log(hourBlock);
 
-            break;
+            return false;
           }
         }
+      }
+    }
+    return true;
+  }
 
-        if ( tableAvailable == true) {
-          thisBooking.sendBooking();
+  formCheck(){
+    const thisBooking = this;
+
+    if( thisBooking.tablesClicked.length !== 0 && thisBooking.dom.phone.value && thisBooking.dom.address.value){
+      return true;
+    } else {
+      window.alert(`Please fill out all required fields`);
+
+      for ( let table of thisBooking.dom.tables){
+        if ( thisBooking.tablesClicked.length == 0){
+          table.classList.add('alert');
         }
       }
+
+      for ( let input of thisBooking.dom.orderConfirmationInputs){
+        input.classList.add('alert');
+      }
+      return false;
     }
   }
 
@@ -248,8 +266,19 @@ class Booking {
 
     thisBooking.dom.sendResBtn.addEventListener('click', (event) => {
       event.preventDefault();
-      thisBooking.tableAvailability();
+
+      if ( thisBooking.tableAvailable() && thisBooking.formCheck() ) {
+        thisBooking.sendBooking();
+      }
     });
+
+    for ( let input of thisBooking.dom.orderConfirmationInputs){
+      input.addEventListener('change', function() {
+        this.classList.remove('alert');
+      });
+    }
+
+
   }
 
   updateDOM(){
@@ -347,8 +376,19 @@ class Booking {
         thisBooking.updateDOM();
       });
 
+    for ( let input of thisBooking.dom.orderConfirmationInputs){
+      input.classList.remove('alert');
+      thisBooking.dom.address.value = '';
+      thisBooking.dom.phone.value = '';
+    }
+
+    for ( let table of thisBooking.dom.tables){
+      table.classList.remove('alert');
+    }
+
     console.log(payload.table);
   }
 }
+
 
 export default Booking;
