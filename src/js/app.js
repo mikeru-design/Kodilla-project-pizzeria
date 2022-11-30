@@ -3,8 +3,51 @@ import { settings, select,  classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+// import Flickity from 'https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js';
 
 const app = {
+
+  initData(){
+    const thisApp = this;
+    thisApp.data = {};
+
+    const url = settings.db.url + '/' + settings.db.products;
+
+    fetch(url)
+      .then( function(rawResponse){
+        // console.log('rawResponse', rawResponse);
+        return rawResponse.json();
+      })
+      .then( function(parsedResponse){
+        // console.log('parsedResponse', parsedResponse);
+
+        thisApp.data.products = parsedResponse;
+
+        thisApp.initMenu();
+      });
+
+    // console.log('thisApp.data', JSON.stringify(thisApp.data));
+  },
+
+  initMenu(){
+    const thisApp = this;
+
+    for (let productData in thisApp.data.products) {
+      new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
+    }
+  },
+
+  initCart(){
+    const thisApp = this;
+
+    const cartElem = document.querySelector(select.containerOf.cart);
+    thisApp.cart = new Cart(cartElem);
+
+    thisApp.productList = document.querySelector(select.containerOf.menu);
+    thisApp.productList.addEventListener('add-to-cart', (event) => {
+      app.cart.add(event.detail.product);
+    });
+  },
 
   initBooking(){
     const thisApp = this;
@@ -23,6 +66,7 @@ const app = {
     const idFromHash = window.location.hash.replace('#/', '');
 
     let pageMatchingHash = false;
+
     for ( let page of thisApp.pages) {
 
       if ( page.id == idFromHash){
@@ -38,7 +82,7 @@ const app = {
 
     for ( let link of thisApp.navLinks){
 
-      link.addEventListener('click', function (event) {
+      link.addEventListener('click', function(event) {
         const clickedElement = this;
         event.preventDefault();
 
@@ -68,47 +112,21 @@ const app = {
 
   },
 
-  initData(){
-    const thisApp = this;
-    thisApp.data = {};
-
-    const url = settings.db.url + '/' + settings.db.products;
-
-    fetch(url)
-      .then( function(rawResponse){
-        // console.log('rawResponse', rawResponse);
-        return rawResponse.json();
-      })
-      .then( function(parsedResponse){
-        // console.log('parsedResponse', parsedResponse);
-
-        thisApp.data.products = parsedResponse;
-
-        thisApp.initMenu();
-      });
-
-    // console.log('thisApp.data', JSON.stringify(thisApp.data));
-  },
-
-  initMenu(){
-
+  initCarousel(){
     const thisApp = this;
 
-    for (let productData in thisApp.data.products) {
-      new Product(thisApp.data.products[productData].id, thisApp.data.products[productData]);
-    }
-  },
+    const carouselElem = document.querySelector('.main-carousel');
 
-  initCart(){
-    const thisApp = this;
+    thisApp.carouselElem = new Flickity( carouselElem, {
+      cellAlign: 'left',
+      contain: true,
+      wrapAround: true,
+      autoPlay: true,
+      prevNextButtons: false,
+      // pageDots: false,
 
-    const cartElem = document.querySelector(select.containerOf.cart);
-    thisApp.cart = new Cart(cartElem);
-
-    thisApp.productList = document.querySelector(select.containerOf.menu);
-    thisApp.productList.addEventListener('add-to-cart', (event) => {
-      app.cart.add(event.detail.product);
     });
+
   },
 
   init(){
@@ -118,6 +136,7 @@ const app = {
     thisApp.initCart();
     thisApp.initPages();
     thisApp.initBooking();
+    thisApp.initCarousel();
   },
 };
 

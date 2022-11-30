@@ -9,6 +9,7 @@
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="vendor/range-slider.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -21,6 +22,7 @@
           <h2 class="logo__subtitle">the best homemade Italian food</h2>
         </div>
         <div class="main-nav">
+          <a href="#home">Home</a>
           <a href="#order">Order</a>
           <a href="#booking">Booking</a>
       </div>
@@ -62,6 +64,72 @@
   </header>
 
   <div id="pages">
+    <section id="home">
+
+      <div class="home-wrapper container">
+
+        <section id="actionBlocks">
+
+          <a href="#order" class="actionBlock order" aria-label="Place a online order">
+            <p>Order online</p>
+            <p>Delicious food delivered to your door</p>
+          </a>
+
+          <a href="#booking" class="actionBlock booking" aria-label="Book a table online">
+            <p>Book a table</p>
+            <p>Book your favorite table just for you</p>
+          </a>
+
+          <div class="actionBlock opening">
+            <p>opening hours:</p>
+            <p>Tue-Sun 12PM - 12AM</p>
+          </div>
+
+        </section>
+
+        <section id="carousel">
+          <div class="main-carousel">
+            <div class="carousel-cell">
+              <img src="/images/img/pizza-3.jpg" alt="">
+              <div>
+                <h3>Fantastic taste!</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam egestas viverra tortor, eu ullamcorper dui imperdiet nec. Nunc sed dolor at elit lobortis sodales.</p>
+                <p>– Margaret Osborne</p>
+              </div>
+
+            </div>
+            <div class="carousel-cell">
+              <img src="/images/img/pizza-3.jpg" alt="">
+              <div>
+                <h3>Amaizing service!</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam egestas viverra tortor, eu ullamcorper dui imperdiet nec. Nunc sed dolor at elit lobortis sodales.</p>
+                <p>– Margaret Osborne</p>
+              </div>
+
+            </div>
+            <div class="carousel-cell">
+              <img src="/images/img/pizza-3.jpg" alt="">
+              <div>
+                <h3>Gorgeous design!</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam egestas viverra tortor, eu ullamcorper dui imperdiet nec. Nunc sed dolor at elit lobortis sodales.</p>
+                <p>– Margaret Osborne</p>
+              </div>
+
+            </div>
+            <div class="carousel-cell">
+              <img src="/images/img/pizza-3.jpg" alt="">
+              <div>
+                <h3>Best desert ever!</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam egestas viverra tortor, eu ullamcorper dui imperdiet nec. Nunc sed dolor at elit lobortis sodales.</p>
+                <p>– Margaret Osborne</p>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </section>
     <section id="order">
       <div id="product-list" class="product-list container"></div>
     </section>
@@ -246,6 +314,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="vendor/range-slider.min.js"></script>
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   <script src="js/app.js" type="module"></script>
 </body>
 </html>

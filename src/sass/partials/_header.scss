@@ -1,17 +1,31 @@
 .header {
+  position: relative;
   padding: ($base-size * 5) 0 ($base-size * 8) 0;
-  background: $color-dark;
+  background-image: url(/images/pizza_background.jpg);
+  background-size: cover;
+  background-position: center;
   color: $color-light;
 
   &__wrapper {
     position: relative;
+    z-index: 2;
+  }
+
+  &::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0;
   }
 
 }
 
 .logo {
   display: inline-block;
-  line-height: 1;
 
   &__title {
     margin: 0 0 $base-size 0;
@@ -23,7 +37,6 @@
     span {
       font-weight: $font-bold;
     }
-
   }
 
   &__subtitle {
@@ -39,6 +52,7 @@
   position: absolute;
   @include flex(row, flex-start, flex-start);
   bottom: ($base-size * -8);
+  z-index: 2;
 
   a {
     @extend .h2;

@@ -210,11 +210,9 @@
 }
 
 .order-confirmation{
-
   input{
-
     &.alert{
-        box-shadow: inset 0px 0px 0px 2px red;
-      }
+      box-shadow: inset 0px 0px 0px 2px red;
+    }
   }
 }
