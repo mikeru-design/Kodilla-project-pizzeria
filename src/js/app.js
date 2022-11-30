@@ -3,7 +3,6 @@ import { settings, select,  classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
-// import Flickity from 'https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js';
 
 const app = {
 
@@ -62,6 +61,7 @@ const app = {
 
     thisApp.pages = document.querySelector(select.containerOf.pages).children;
     thisApp.navLinks = document.querySelectorAll(select.nav.links);
+    thisApp.actionBlocks = document.querySelector(select.containerOf.actionBlocks);
 
     const idFromHash = window.location.hash.replace('#/', '');
 
@@ -94,6 +94,25 @@ const app = {
       });
     }
 
+    thisApp.actionBlocks.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      if ( event.target.localName == 'a' || event.target.parentElement.localName == 'a' ){
+        console.log(event);
+        let eventId = '';
+
+        if ( event.target.localName == 'a' ){
+          eventId = event.target.getAttribute('href').replace('#', '');
+        }
+
+        if ( event.target.parentElement.localName == 'a' ){
+          eventId = event.target.parentElement.getAttribute('href').replace('#', '');
+        }
+
+        thisApp.activatePage(eventId);
+      }
+    });
+
   },
 
   activatePage(pageId){
@@ -117,6 +136,7 @@ const app = {
 
     const carouselElem = document.querySelector('.main-carousel');
 
+    // eslint-disable-next-line no-undef
     thisApp.carouselElem = new Flickity( carouselElem, {
       cellAlign: 'left',
       contain: true,

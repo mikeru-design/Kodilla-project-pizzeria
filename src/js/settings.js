@@ -9,6 +9,7 @@ export const select = {
     cart: '#cart',
     pages: '#pages',
     booking: '.booking-wrapper',
+    actionBlocks: '#actionBlocks'
   },
   all: {
     menuProducts: '#product-list > .product',
