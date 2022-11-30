@@ -83,7 +83,7 @@
     }
 
     &:hover p{
-      transform: scale(0.9) translateY(-10px);
+      transform: scale(0.7) translateY(-15px);
     }
 
     &:hover p:nth-child(2){
@@ -178,7 +178,7 @@
       transition: .3s;
 
       &:hover{
-        color: red;
+        color: $color-main;
       }
     }
   }

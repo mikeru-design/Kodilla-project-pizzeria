@@ -101,6 +101,7 @@
   width: 320px;
   height: 320px;
   border: 12px solid $color-dark;
+  border-radius: 10px;
   margin: ($base-size * 4) auto;
   background: linear-gradient(to right, #e9dfc4 0%, #e9dfc4 1%, #ede3c8 2%, #ede3c8 24%, #ebddc3 25%, #e9dfc4 48%, #ebddc3 49%, #e6d8bd 52%, #e6d8bd 53%, #e9dbc0 54%, #e6d8bd 55%, #e6d8bd 56%, #e9dbc0 57%, #e6d8bd 58%, #e6d8bd 73%, #e9dbc0 74%, #e9dbc0 98%, #ebddc3 100%);
   background-size: ($base-size * 3);
@@ -144,10 +145,15 @@
     width: 70px;
     height: 70px;
     line-height: 70px;
+    border-radius: 5px;
     transform: rotate(45deg);
     transform-origin: 50% 50%;
     transition: .3s;
+    overflow: hidden;
     cursor: pointer;
+
+    font-family: Oswald , sans-serif;
+    font-size: 24px;
 
     &--round {
       border-radius: 50%;
@@ -160,7 +166,7 @@
 
     &.booked {
       cursor: not-allowed;
-      color: lighten($color-dark, 40%);
+      color: $color-dark;
 
       &::after {
         position: absolute;
@@ -169,14 +175,14 @@
         height: 100%;
         left: 0;
         top: 0;
-        background: $color-dark;
-        opacity: 0.4;
+        background: $color-main;
+        opacity: 0.6;
       }
     }
 
     &.clicked {
-      background-color: rgb(69, 228, 69);
-      box-shadow: 0 0 12px rgba(22, 181, 80, 0.475);
+      background-color: rgba(26, 255, 83, 0.8);
+      box-shadow: 0 0 12px rgba(13, 151, 63, 0.534);
       transform: scale(1.1) rotate(45deg);
     }
 
